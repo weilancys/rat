@@ -25,7 +25,8 @@ timeStart = time.time()
 
 while True:
 	img = ImageGrab.grab()
-	img.save(networkBuffer, "PNG")
+	#img.resize((1280, 720))
+	img.save(networkBuffer, "PNG", quality=30)
 
 	imgLength = networkBuffer.tell()
 	socketClientFile.write(struct.pack(">L", imgLength))
@@ -37,7 +38,7 @@ while True:
 	networkBuffer.seek(0)
 	networkBuffer.truncate()
 
-	if time.time() - timeStart > 10:
+	if time.time() - timeStart > 5:
 		break
 
 socketClientFile.write(struct.pack(">L", 0))

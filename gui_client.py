@@ -17,7 +17,7 @@ class guiRatClient(tk.Tk):
 		self.ref_reserve = {}
 		self.ref_reserve["temp_pic"] = ImageTk.PhotoImage(Image.open("patlabor.jpg"))
 
-		self.canvas = tk.Canvas(self, width=800, height=600, bg="black")
+		self.canvas = tk.Canvas(self, width=1280, height=720, bg="black")
 		self.canvas.create_image(0, 0, anchor="nw", image=self.ref_reserve["temp_pic"])
 		self.canvas.pack()
 
@@ -40,12 +40,18 @@ class guiRatClient(tk.Tk):
 			imageBuffer.write(rawImageData)
 			imageBuffer.seek(0)
 			# image = ImageTk.PhotoImage(Image.frombytes("RGBA", (800, 600) ,rawImageData))
-			self.ref_reserve["image"] = ImageTk.PhotoImage(Image.open(imageBuffer))
+			self.ref_reserve["image"] = ImageTk.PhotoImage(Image.open(imageBuffer).resize((1280, 720)))
 
 			self.canvas.create_image(0, 0, anchor="nw", image=self.ref_reserve["image"])
+			self.canvas.update()
 			
 			imageBuffer.seek(0)
 			imageBuffer.truncate()
+
+		#self.canvas.create_text((int(1280/2), int(720/2)), anchor="nw", text="play over.")
+		self.canvas.delete(tk.ALL)
+		self.canvas.create_text(((1280/2), (720/2)), anchor="nw", text="play over.", fill="white")
+		self.canvas.update()
 
 		socketClientFile.close()
 		socketClient.close()
